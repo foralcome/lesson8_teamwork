@@ -1,4 +1,5 @@
 personal = None
+size_personal = 0
 person_data_columns = {'id': 'Id', 'post': 'Должность', 'soname': 'Фамилия', 'name': 'Имя', 'email': 'E-mail',
                        'date_birthday': 'Дата рождения', 'phone': 'Телефон', 'description': 'Примечание'}
 
@@ -10,9 +11,15 @@ def init(new_personal=None):
     else:
         personal = []
 
+    global size_personal
+    size_personal = 0
 
 def create(data):
     return dict(zip(person_data_columns, data))
+
+
+def get_size_personal():
+    return size_personal
 
 
 def get_personal():
@@ -21,11 +28,13 @@ def get_personal():
 
 def add_personal(person):
     global personal
+    global size_personal
 
     if personal is None:
         personal = []
 
     personal.append(person)
+    size_personal += 1
     return True
 
 
@@ -43,6 +52,7 @@ def find_person_by(column, value):
 
 def delete_person_by(column, value):
     global personal
+    global size_personal
 
     if personal is None:
         return False
@@ -50,5 +60,6 @@ def delete_person_by(column, value):
     for i in range(len(personal)):
         if personal[i][column] == value:
             personal.pop(i)
+            size_personal -= 1
             return True
     return False

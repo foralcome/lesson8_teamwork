@@ -29,26 +29,28 @@ def load_menu_company():
 
 def load_menu_personal():
     menu_personal = {}
-    menu_personal[1] = 'Показать сотрудников'
-    menu_personal[2] = 'Добавить сотрудника'
-    menu_personal[3] = 'Редактировать сотрудника'
-    menu_personal[4] = 'Удалить сотрудника'
-    menu_personal[5] = 'Найти сотрудника'
-    menu_personal[6] = 'Загрузить из файла'
-    menu_personal[7] = 'Сохранить в файл'
+    menu_personal[1] = 'Показать кол-во сотрудников'
+    menu_personal[2] = 'Показать сотрудников'
+    menu_personal[3] = 'Добавить сотрудника'
+    menu_personal[4] = 'Редактировать сотрудника'
+    menu_personal[5] = 'Удалить сотрудника'
+    menu_personal[6] = 'Найти сотрудника'
+    menu_personal[7] = 'Загрузить из файла'
+    menu_personal[8] = 'Сохранить в файл'
     menu_personal[0] = 'отмена'
     return menu_personal
 
 
 def load_menu_client():
     menu_client = {}
-    menu_client[1] = 'Показать клиентов'
-    menu_client[2] = 'Добавить клиента'
-    menu_client[3] = 'Редактировать клиента'
-    menu_client[4] = 'Удалить клиента'
-    menu_client[5] = 'Найти клиента'
-    menu_client[6] = 'Загрузить из файла'
-    menu_client[7] = 'Сохранить в файл'
+    menu_client[1] = 'Показать кол-во клиентов'
+    menu_client[2] = 'Показать клиентов'
+    menu_client[3] = 'Добавить клиента'
+    menu_client[4] = 'Редактировать клиента'
+    menu_client[5] = 'Удалить клиента'
+    menu_client[6] = 'Найти клиента'
+    menu_client[7] = 'Загрузить из файла'
+    menu_client[8] = 'Сохранить в файл'
     menu_client[0] = 'отмена'
     return menu_client
 

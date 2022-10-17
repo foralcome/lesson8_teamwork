@@ -11,15 +11,5 @@ def init(new_company=None):
         company = {}
 
 
-def create(title, city):
-    global company
-
-    if company is None:
-        company = {}
-
-    company['title'] = title
-    company['city'] = city
-
-
 def get_company():
     return company

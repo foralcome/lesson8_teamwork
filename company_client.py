@@ -1,4 +1,5 @@
 clients = None
+count_clients = 0
 client_data_columns = {'id': 'Id', 'soname': 'Фамилия', 'name': 'Имя', 'email': 'E-mail',
                        'date_birthday': 'Дата рождения', 'phone': 'Телефон', 'description': 'Примечание'}
 
@@ -10,18 +11,16 @@ def init(new_clients=None):
     else:
         clients = {}
 
+    global count_clients
+    count_clients = 0
 
-def create(id, soname, name, post, date_birthday, phone, description=''):
-    return {
-        'id': id,
-        'soname': soname,
-        'name': name,
-        'post': post,
-        'date_birthday': date_birthday,
-        'phone': phone,
-        'description': description
-    }
 
+def create(data):
+    return dict(zip(client_data_columns, data))
+
+
+def get_count_clients():
+    return count_clients
 
 def get_clients():
     return clients
@@ -29,11 +28,13 @@ def get_clients():
 
 def add_client(client):
     global clients
+    global count_clients
 
     if clients is None:
         clients = []
 
     clients.append(client)
+    count_clients += 1
     return True
 
 
@@ -51,6 +52,7 @@ def find_client_by(column, value):
 
 def delete_client_by(column, value):
     global clients
+    global count_clients
 
     if clients is None:
         return False
@@ -58,5 +60,6 @@ def delete_client_by(column, value):
     for i in range(len(clients)):
         if clients[i][column] == value:
             clients.pop(i)
+            count_clients -= 1
             return True
     return False
