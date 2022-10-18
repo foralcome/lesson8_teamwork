@@ -6,21 +6,18 @@ client_data_columns = {'id': 'Id', 'soname': 'Фамилия', 'name': 'Имя',
 
 def init(new_clients=None):
     global clients
-    if isinstance(new_clients, dict):
+    if isinstance(new_clients, list):
         clients = new_clients
     else:
-        clients = {}
+        clients = []
 
     global count_clients
-    count_clients = 0
-
-
-def create(data):
-    return dict(zip(client_data_columns, data))
+    count_clients = len(clients)
 
 
 def get_count_clients():
     return count_clients
+
 
 def get_clients():
     return clients

@@ -6,16 +6,13 @@ person_data_columns = {'id': 'Id', 'post': 'Должность', 'soname': 'Фа
 
 def init(new_personal=None):
     global personal
-    if isinstance(new_personal, dict):
+    if isinstance(new_personal, list):
         personal = new_personal
     else:
         personal = []
 
     global size_personal
-    size_personal = 0
-
-def create(data):
-    return dict(zip(person_data_columns, data))
+    size_personal = len(personal)
 
 
 def get_size_personal():

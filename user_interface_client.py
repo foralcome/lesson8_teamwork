@@ -30,7 +30,7 @@ def print_company_clients():
         print('в компании нет клиентов')
     else:
         for client in mod_client.get_clients():
-            print_company_client(client)
+            print_company_client_mini(client)
 
 
 # КЛИЕНТЫ - 3 Добавить клиента
@@ -48,51 +48,77 @@ def add_company_client():
     if not check.isdigit() or int(check) != 1:
         return False
 
-    clients.append(new_client)
-    mod_client.count_clients += 1
+    mod_client.add_client(new_client)
     return True
 
 
 # КЛИЕНТЫ - 4 Редактировать клиента
 def edit_company_client():
-    return False
+    clients = mod_client.get_clients()
+    keys_menu = range(1, len(clients) + 1)
+    values_menu = [(x['soname'] + ' ' + x['name']) for x in clients]
+    clients_menu = dict(zip(keys_menu, values_menu))
+    ui_menu.print_menu('Выберите клиента', clients_menu)
+    select_id = ui_menu.get_select_menu(clients_menu)
+
+    id_clients = [x['id'] for x in clients]
+    find_id = id_clients[select_id - 1]
+    find_client = mod_client.find_client_by('id', find_id)
+
+    print('Ввод новых значений:')
+    for data_key in mod_client.client_data_columns:
+        if data_key == 'id':
+            continue
+        input_data = input(f"Введите {data_key} (было '{find_client[data_key]}'):")
+        if len(input_data) != 0:
+            find_client[data_key] = input_data
 
 
 # КЛИЕНТЫ - 5 Удалить клиента
 def delete_company_client():
     print('\n5) Удаление клиента:')
-    ui_menu.print_menu('Способ удаления', mod_client.client_data_columns)
-    find_column = ui_menu.get_select_menu(mod_client.client_data_columns)
-    find_str = input(f'Введите {mod_client.client_data_columns[find_column]} клиента:')
+    indexes_menu = range(1, len(mod_client.client_data_columns) + 1)
+    keys_menu = list(mod_client.client_data_columns.keys())
+    values_menu = mod_client.client_data_columns.values()
+    column_menu = dict(zip(indexes_menu, values_menu))
+    ui_menu.print_menu('Удалить по значению', column_menu)
+    find_column_id = ui_menu.get_select_menu(column_menu)
+    find_column = keys_menu[find_column_id - 1]
+    find_str = input(f'Введите значение для поиска:')
 
-    if mod_client.find_client_by(find_column, find_str):
-        mod_client.delete_client_by(find_column, find_str)
+    if mod_client.delete_client_by(find_column, find_str):
+        print('Клиент удалён!')
     else:
-        print(f'Сотрудника с {find_column} = {find_str} не найден!')
-        return False
-    return True
+        print(f'Клиент с {find_column} = {find_str} не найден!')
 
 
 # КЛИЕНТЫ - 6 Найти клиента
 def find_company_client():
     print('\n6) Найти клиента:')
-    ui_menu.print_menu('Поле для поиска', mod_personal.person_data_columns)
-    find_column = ui_menu.get_select_menu(mod_personal.person_data_columns)
-    find_str = input(f'Введите {mod_personal.person_data_columns[find_column]} клиента:')
+    indexes_menu = range(1, len(mod_client.client_data_columns) + 1)
+    keys_menu = list(mod_client.client_data_columns.keys())
+    values_menu = mod_client.client_data_columns.values()
+    column_menu = dict(zip(indexes_menu, values_menu))
+    ui_menu.print_menu('Удалить по значению', column_menu)
+    find_column_id = ui_menu.get_select_menu(column_menu)
+    find_column = keys_menu[find_column_id - 1]
+    find_str = input(f'Введите значение для поиска:')
 
     find_client = mod_client.find_client_by(find_column, find_str)
     if find_client is not None:
-        print_company_client(find_client)
-    else:
         print('Клиент не найден!')
+        print_company_client_mini(find_client)
+    else:
+        print(f'Клиент с {find_column} = {find_str} не найден!')
 
 
 # КЛИЕНТЫ - 7 Загрузить из файла
 def load_company_client_from_file():
     print('\n7) Загрузка из файла:')
     menu_file_format = ui_menu.load_menu_file_format()
-    ui_menu.print_menu('Формат файла', menu_file_format)
-    select_menu_file_format = ui_menu.get_select_menu(menu_file_format)
+    # ui_menu.print_menu('Формат файла', menu_file_format)
+    # select_menu_file_format = ui_menu.get_select_menu(menu_file_format)
+    select_menu_file_format = 1
     if select_menu_file_format == 1:
         mod_file_client.load_company_clients_from_file_csv()
     else:
@@ -119,6 +145,10 @@ def run_main_menu_clients():
         ui_menu.print_menu('Клиенты', menu_clients)
         select_menu_clients = ui_menu.get_select_menu(menu_clients)
 
+        is_init_clients = False
+        if mod_client.get_clients() is not None and len(mod_client.get_clients()) > 0:
+            is_init_clients = True
+
         # Показать кол-во клиентов
         if select_menu_clients == 1:
             print_count_company_clients()
@@ -130,18 +160,30 @@ def run_main_menu_clients():
             add_company_client()
         # Редактировать клиента
         elif select_menu_clients == 4:
-            edit_company_client()
+            if not is_init_clients:
+                print('\nКлиенты не загружены!')
+            else:
+                edit_company_client()
         # Удалить клиента
         elif select_menu_clients == 5:
-            delete_company_client()
+            if not is_init_clients:
+                print('\nКлиенты не загружены!')
+            else:
+                delete_company_client()
         # Найти клиента
         elif select_menu_clients == 6:
-            find_company_client()
+            if not is_init_clients:
+                print('\nКлиенты не загружены!')
+            else:
+                find_company_client()
         # Загрузить из файла
         elif select_menu_clients == 7:
             load_company_client_from_file()
         # Сохранить в файл
         elif select_menu_clients == 8:
-            save_company_client_to_file()
+            if not is_init_clients:
+                print('\nКлиенты не загружены!')
+            else:
+                save_company_client_to_file()
         else:
             break

@@ -16,7 +16,7 @@ def run_main_menu():
             break
 
         is_init_company = False
-        if mod_company.get_company() is None:
+        if mod_company.get_company() is not None:
             is_init_company = True
 
         # Компания

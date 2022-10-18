@@ -11,8 +11,9 @@ def save_company_to_file_csv(file_name='company.csv', separator=';'):
 def load_company_from_file_csv(file_name='company.csv', separator=';'):
     with open(file_name, 'r') as file_data:
         for line_data in file_data:
-            company_data = line_data.rstrip().split(separator, len(mod_company.company_data_keys))
-            company = mod_company.create(zip(mod_company.company_data_keys, company_data))
-            mod_company.init(company)
+            company_data = line_data.rstrip().split(separator)
+            if len(company_data) != len(mod_company.company_data_keys):
+                continue
+            mod_company.init(dict(zip(mod_company.company_data_keys, company_data)))
             break
     return True

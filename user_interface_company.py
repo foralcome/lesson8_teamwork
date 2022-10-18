@@ -41,13 +41,13 @@ def print_company():
 def load_company_from_file():
     print('\n3) Загрузить из файла:')
     menu_file_format = ui_menu.load_menu_file_format()
-    ui_menu.print_menu('Формат файла', menu_file_format)
-    select_menu_file_format = ui_menu.get_select_menu(menu_file_format)
+    #ui_menu.print_menu('Формат файла', menu_file_format)
+    #select_menu_file_format = ui_menu.get_select_menu(menu_file_format)
+    select_menu_file_format = 1
     if select_menu_file_format == 1:
         mod_file_company.load_company_from_file_csv()
-        mod_personal.init()
+        print('\nКомпания загружена!')
         mod_file_company_personal.load_company_personal_from_file_csv()
-        mod_client.init()
         mod_file_company_client.load_company_clients_from_file_csv()
     else:
         print('Unknown format file')
@@ -70,14 +70,14 @@ def save_company_to_file():
 def run_main_menu_company():
     menu_company = ui_menu.load_menu_company()
 
-    is_init_company = False
-    if mod_company.get_company() is None:
-        is_init_company = True
-
     select_menu_company = 1
     while select_menu_company != 0:
         ui_menu.print_menu('Компания', menu_company)
         select_menu_company = ui_menu.get_select_menu(menu_company)
+
+        is_init_company = False
+        if mod_company.get_company() is not None:
+            is_init_company = True
 
         # Создать компанию
         if select_menu_company == 1:
