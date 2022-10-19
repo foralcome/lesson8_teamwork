@@ -1,5 +1,5 @@
 import company_personal as mod_personal
-
+import os.path
 
 def save_company_personal_to_file_csv(file_name='personal.csv', separator=';'):
     with open(file_name, 'w') as file_data:
@@ -11,6 +11,9 @@ def save_company_personal_to_file_csv(file_name='personal.csv', separator=';'):
 
 
 def load_company_personal_from_file_csv(file_name='personal.csv', separator=';'):
+    if not os.path.exists(file_name):
+        return False
+
     personal = []
     with open(file_name, 'r') as file_data:
         for line_data in file_data:

@@ -120,7 +120,10 @@ def load_company_personal_from_file():
     # select_menu_file_format = ui_menu.get_select_menu(menu_file_format)
     select_menu_file_format = 1
     if select_menu_file_format == 1:
-        mod_file_personal.load_company_personal_from_file_csv()
+        if mod_file_personal.load_company_personal_from_file_csv():
+            print('Успешная загрузка из файла!')
+        else:
+            print('Ошибка загрузки из файла! Проверьте доступность файла и повторите попытку.')
     else:
         print('Unknown format file')
 

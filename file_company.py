@@ -1,5 +1,5 @@
 import company as mod_company
-
+import os.path
 
 def save_company_to_file_csv(file_name='company.csv', separator=';'):
     with open(file_name, 'w') as file_data:
@@ -9,6 +9,9 @@ def save_company_to_file_csv(file_name='company.csv', separator=';'):
 
 
 def load_company_from_file_csv(file_name='company.csv', separator=';'):
+    if not os.path.exists(file_name):
+        return False
+
     with open(file_name, 'r') as file_data:
         for line_data in file_data:
             company_data = line_data.rstrip().split(separator)

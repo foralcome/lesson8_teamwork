@@ -1,5 +1,5 @@
 import company_client as mod_client
-
+import os.path
 
 def save_company_clients_to_file_csv(file_name='clients.csv', separator=';'):
     with open(file_name, 'w') as file_data:
@@ -11,6 +11,9 @@ def save_company_clients_to_file_csv(file_name='clients.csv', separator=';'):
 
 
 def load_company_clients_from_file_csv(file_name='clients.csv', separator=';'):
+    if not os.path.exists(file_name):
+        return False
+
     clients = []
     with open(file_name, 'r') as file_data:
         for line_data in file_data:
